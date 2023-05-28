@@ -1,0 +1,148 @@
+﻿
+@page "/"
+
+
+<h3>Bienvenido a Red Library</h3>
+<h2>Una app para mantener la cuenta de tus libros!</h2>
+
+<div class="mb-2">
+    <button class="btn btn-primary" @onclick="()=>{ShowForm = !ShowForm;}">
+        <i class="bi bi-plus"></i> Añadir Libro
+    </button>
+</div>
+<div>
+    <label><b>Cantidad de libros:</b> @Libros.Count</label>
+</div>
+
+
+@if(ShowForm)
+{
+    <div class="modal" tabindex="-1" role="dialog" style="display: @(ShowForm ? "block" : "none")">
+        <EditForm Model="request" OnValidSubmit="Send">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Añadir Libro</h5>
+                        <button type="button" class="close" @onclick="Cancelar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="TextBNombreLibro">Nombre del libro:</label>
+                            <InputText id="TextBNombreLibro" class="form-control" @bind-Value="@request.Nombre"></InputText>
+                        </div>
+                        <div class="form-group">
+                            <label for="TextBAutorLibro">Autor del libro:</label>
+                            <InputText id="TextBAutorLibro" class="form-control" @bind-Value="@request.Autor"></InputText>
+                        </div>
+                        <div class="form-group">
+                            <label for="TextBGeneroLibro">Género del libro:</label>
+                            <InputText id="TextBGeneroLibro" class="form-control" @bind-Value="@request.Genero"></InputText>
+                        </div>
+                        <div class="form-group">
+                            <label for="imageUpload">Subir portada:</label>
+                            <input type="file" class="form-control-file" id="imageUpload" @bind-value="@request.Portada">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-outline-success">Guardar</button>
+                            <button @onclick="Cancelar" class="btn btn-outline-danger">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+}
+
+
+@code {
+
+    //Para mostrar el formulario de eliminar
+    public bool ShowForm { get; set; } = false;
+    //Creamos una lista con todos los contactos
+
+    public List<LibroResponse> Libros { get; set; } = new List<LibroResponse>();
+
+    //Creamos una variable de tipo LibroRequest para crear peticiones para almacenar libros
+    public LibroRequest request { get; set; } = new LibroRequest();
+
+    //creamos una variable de filtro
+    public string Filtro { get; set; } = "";
+
+    //para que se cierre el formulario de añadir
+    void Cancelar()
+    {
+        request = new LibroRequest();
+        ShowForm = false;
+    }
+
+    //funcion para cargar los contactos de manera asincrona(independiente)
+    async Task CargarContactos()
+    {
+        //ejecutamos la funcion Consultar la cual devuelve una lista de ContactosResponse
+        var resultado =  await libroServices.Consultar(Filtro);
+        if (resultado.Success)
+        {
+            Libros = resultado.Data!;
+        }
+    }
+
+    //estafuncion se va e ejecutar de forma asincrona cuando se abra la app
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarContactos();
+    }
+
+    //si se envia un request
+    public async Task Send()
+    {
+        //se evalua si tiene un id, es decir, si existe
+
+        //si no
+        if (request.Id == 0)
+        {
+            //Debo registrar el contacto..
+            var r = await libroServices.Crear(request);
+            if (r.Success)
+            {
+                Cancelar();
+                await CargarContactos();
+                StateHasChanged();
+            }
+        }
+        else //si existe, es decir, si tiene un Id
+        {
+            //Debo solicitar modificar el contacto...
+            var r = await libroServices.Modificar(request);
+            if (r.Success)
+            {
+                Cancelar();
+                await CargarContactos();
+                StateHasChanged();
+            }
+        }
+    }
+
+    public void Seleccionar(int Id)
+    {
+
+        ShowForm = true;
+        request =   Libros
+        .Where(c => c.Id == Id)
+        .Select(c => c.ToRequest())
+        .FirstOrDefault() ?? new LibroRequest();
+    }
+
+    public async Task Eliminar(LibroResponse libro)
+    {
+        var resultado = await libroServices.Eliminar(libro.ToRequest());
+        if (resultado.Success)
+        {
+            await CargarContactos();
+            StateHasChanged();
+        }
+    }
+}
