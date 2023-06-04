@@ -17,48 +17,80 @@
 
 @if(ShowForm)
 {
-    <div class="modal" tabindex="-1" role="dialog" style="display: @(ShowForm ? "block" : "none")">
+  
         <EditForm Model="request" OnValidSubmit="Send">
-            <div class="modal-dialog" role="document">
+
+        <div class="modal" tabindex="-1" role="dialog" style="display:block;">
+            <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Añadir Libro</h5>
-                        <button type="button" class="close" @onclick="Cancelar">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <h5 class="modal-title">Añadir Un Libro</h5>
+                         <button type="button" class="btn-close" @onclick="Cancelar" data-bs-dismiss="modal" aria-label="Close">
+                             <span>&times;</span>
+                         </button>
+             
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="TextBNombreLibro">Nombre del libro:</label>
-                            <InputText id="TextBNombreLibro" class="form-control" @bind-Value="@request.Nombre"></InputText>
+                        <div class="mb-3 input-group">
+                            <label class="input-group-text">Nombre del libro</label>
+                            <InputText class="form-control" @bind-Value="@request.Nombre"></InputText>
                         </div>
-                        <div class="form-group">
-                            <label for="TextBAutorLibro">Autor del libro:</label>
-                            <InputText id="TextBAutorLibro" class="form-control" @bind-Value="@request.Autor"></InputText>
+                        <div class="mb-3 input-group">
+                            <label class="input-group-text">Autor del libro</label>
+                            <InputText class="form-control" @bind-Value="@request.Autor"></InputText>
                         </div>
-                        <div class="form-group">
-                            <label for="TextBGeneroLibro">Género del libro:</label>
-                            <InputText id="TextBGeneroLibro" class="form-control" @bind-Value="@request.Genero"></InputText>
+                        <div class="mb-3 input-group">
+                            <label class="input-group-text">Género del libro</label>
+                            <InputText class="form-control" @bind-Value="@request.Genero"></InputText>
                         </div>
-                        <div class="form-group">
-                            <label for="imageUpload">Subir portada:</label>
-                            <input type="file" class="form-control-file" id="imageUpload" @bind-value="@request.Portada">
+                        <div class="mb-3 input-group">
+                            <label class="input-group-text">Portada del libro</label>
+                            <InputFile OnChange="HandleFileChange" />
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <div class="btn-group">
-                            <button type="submit" class="btn btn-outline-success">Guardar</button>
-                            <button @onclick="Cancelar" class="btn btn-outline-danger">Cancelar</button>
-                        </div>
+                        <button type="submit"  class="btn btn-primary"">Guardar</button>
+                        <button type="button" class="btn btn-primary " @onclick="Cancelar">Cerrar</button>
                     </div>
                 </div>
             </div>
+        </div>
+
         </EditForm>
-    </div>
+  
 }
+
+<div class="row">
+    @foreach (var libro in Libros)
+    {
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <img class="card-img-top" src="data:image;base64,@Convert.ToBase64String(libro.Portada)" alt="Card image cap" style="max-width: 100%; max-height: 400px;">
+                    <div class="card-body">
+                        <h5 class="card-title">@libro.Nombre</h5>
+                        <p class="card-text"><b>Escrito por:</b> @libro.Autor</p>
+                        <p class="card-text"><small class="text-muted"><b>Género literario:</b> @libro.Genero</small></p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <button class="btn btn-link text-muted" @onclick="()=>Seleccionar(libro.Id)">Editar</button>
+                        <button class="btn btn-link text-muted" @onclick="()=>Eliminar(libro)">Borrar</button>
+                    </div>
+                </div>
+            </div>
+    }
+</div>
 
 
 @code {
+
+    private async Task HandleFileChange(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        var buffer = new byte[file.Size];
+        await file.OpenReadStream().ReadAsync(buffer);
+
+        request.Portada = buffer;
+    }
 
     //Para mostrar el formulario de eliminar
     public bool ShowForm { get; set; } = false;
