@@ -1,22 +1,41 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿<style>
+    .navbar {
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-link {
+        color: white;
+        font-size: 1.2rem;
+    }
+
+        .nav-link:hover {
+            color: white;
+            text-decoration: none;
+        }
+</style>
+
+<div class="top-row ps-3 navbar bg-dark navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">Red Library</a>
+        <a class="navbar-brand text-center" href="/"><b>WebLib</b></a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
 </div>
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+<div class="@NavMenuCssClass bg-dark nav-scrollable shadow-right" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
                 <span class="oi oi-book" aria-hidden="true"></span> Libros
             </NavLink>
         </div>
-
+        <!-- Agrega aquí más elementos de menú si es necesario -->
     </nav>
 </div>
+
+
+
 
 @code {
     private bool collapseNavMenu = true;

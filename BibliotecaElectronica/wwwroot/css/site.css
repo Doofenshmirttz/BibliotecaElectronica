@@ -38,6 +38,12 @@ a, .btn-link {
     color: red;
 }
 
+.navbar.navbar-blue {
+    background-color: blue;
+}
+.bg-red {
+    background-color: #ff6666; /* Reemplaza el valor con el tono de rojo deseado */
+}
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;
