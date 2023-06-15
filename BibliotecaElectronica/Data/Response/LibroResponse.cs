@@ -13,7 +13,7 @@ namespace BibliotecaElectronica.Data.Response
         public byte[] Portada { get; set; } = null!;
 
 
-        public LibroRequest ToRequest() => new LibroRequest()
+        public LibroRequest ToRequest() => new()
         {
             Id = Id,
             Nombre = Nombre,
