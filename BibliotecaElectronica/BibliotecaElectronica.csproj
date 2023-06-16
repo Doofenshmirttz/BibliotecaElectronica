@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Content Remove="Pages\Acerca.razor" />
+    <Content Remove="Pages\Libros\Compresor.razor" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,10 +33,16 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Pages\Acerca.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Libros\Compresor.razor" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="Pages\Acerca.razor" />
+    <None Include="Pages\Libros\Compresor.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Libros\Compresor.razor" />
   </ItemGroup>
 
 </Project>

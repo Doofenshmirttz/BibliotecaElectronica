@@ -223,7 +223,13 @@
                             <div class="mb-3">
                                 <i class="bi badge-info"></i>
                                 <p style="color: #dc3545;" class="fs-10 text-center fw-bold">Procura que las imagenes no sean tan grandes</p>
+                                <p class="fs-11 text-center">O puedes</p>
+                                <NavLink class="nav-link text-center fw-bold" href="https://www.iloveimg.com/es/comprimir-imagen" Match="NavLinkMatch.All" target="_blank">
+                                    <span class="oi oi-box" aria-hidden="true"></span> Comprimir la image (Opción recomendada)
+                                </NavLink>
+
                             </div>
+
                         </div>
 
                         <div class="modal-footer">
@@ -337,13 +343,23 @@
                     <td class="text-center">@libro.Genero</td>
                     <td class="text-center">
                         <div class="d-flex justify-content-center">
-                            <button class="btn btn-warning rounded-circle" style="width: 40px; height: 40px; padding: 0; margin-right: 5px;" @onclick="()=>Seleccionar(libro.Id)">
-                                <i class="bi bi-pencil-fill" style="line-height: 40px; font-size: 18px;"></i>
+                            
+                           
+
+                            <button  @onclick="()=>Eliminar(libro)" class="btn btn-link text-danger text-decoration-none" type="button">
+                                <div class="d-flex flex-column align-items-center fw-bold">
+                                    <i class="bi bi-trash" style="line-height: 32px; font-size: 22px;"></i>
+                                    <span>Eliminar</span>
+                                </div>
                             </button>
 
-                            <button class="btn btn-danger rounded-circle" style="width: 40px; height: 40px; padding: 0;" @onclick="()=>Eliminar(libro)">
-                                <i class="bi bi-trash" style="line-height: 40px; font-size: 18px;"></i>
+                            <button @onclick="()=>Seleccionar(libro.Id)" class="btn btn-link text-primary text-decoration-none" type="button">
+                                <div class="d-flex flex-column align-items-center fw-bold">
+                                    <i class="bi bi-pencil" style="line-height: 32px; font-size: 22px;"></i>
+                                    <span>Seleccionar</span>
+                                </div>
                             </button>
+                           
                         </div>
                     </td>
                 </tr>
