@@ -456,8 +456,7 @@
     {
         request = new LibroRequest();
         ShowForm = false;
-        libroAeliminar = new LibroResponse();
-        
+       
 
     }
 
@@ -541,6 +540,9 @@
            
             await CargarLibros();
             StateHasChanged();
+            libroAeliminar = new LibroResponse();
+            EliminarLibro = false;
+
         }
 
       
