@@ -1,6 +1,7 @@
 using BibliotecaElectronica.Data;
 using BibliotecaElectronica.Data.Context;
 using BibliotecaElectronica.Data.Services;
+using Blazorise;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -12,6 +13,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddDbContext<BibliotecaElectronicaDbContext>();
 builder.Services.AddScoped<IBibliotecaElectronicaDbContext, BibliotecaElectronicaDbContext>();
 builder.Services.AddScoped<ILibroServices, LibroServices>();
+
 
 var app = builder.Build();
 

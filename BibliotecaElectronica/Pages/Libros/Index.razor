@@ -101,7 +101,7 @@
                                <h6 class="mb-3"> 
                                    ¿Libros? Si, A todos nos encantan.
                                 Y como sabemos que te encantan creamos
-                                    <b>Web Lib</b>.
+                                    <label class="fs-6 gardiente-texto">Web Library</label>.
                                </h6>
                             </div>
                         </li>
@@ -109,6 +109,29 @@
                        
                     </ul>
                     <button @onclick="()=>{HolaDenuevo = !HolaDenuevo;}" type="button" class="btn btn-lg btn-primary mt-5 w-100" data-bs-dismiss="modal">Gracias</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if(EliminarLibro)
+{
+    <div class="modal-backdrop fade show rounded-3"></div>
+    <div class="modal rounded-3" tabindex="-1" role="dialog" style="display: block;">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable rounded-3">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header border-bottom-0">
+                    <h1 class="modal-title fs-5 text-center"><b>¿Desea Eliminar el libro @libroAeliminar.Nombre </b> </h1>
+
+
+                </div>
+                
+                <div class="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
+                    <button type="button" @onclick="()=>Eliminar(libroAeliminar)" class="btn btn-lg btn-primary">Si</button>
+                </div>
+                <div class="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
+                    <button type="button" @onclick="()=>{Cancelar(); EliminarLibro=!EliminarLibro;}" class="btn btn-lg btn-danger">No</button>
                 </div>
             </div>
         </div>
@@ -225,7 +248,7 @@
                                 <p style="color: #dc3545;" class="fs-10 text-center fw-bold">Procura que las imagenes no sean tan grandes</p>
                                 <p class="fs-11 text-center">O puedes</p>
                                 <NavLink class="nav-link text-center fw-bold" href="https://www.iloveimg.com/es/comprimir-imagen" Match="NavLinkMatch.All" target="_blank">
-                                    <span class="oi oi-box" aria-hidden="true"></span> Comprimir la image (Opción recomendada)
+                                    <span class="oi oi-box" aria-hidden="true"></span> Comprimir la imágen (Opción recomendada)
                                 </NavLink>
 
                             </div>
@@ -254,7 +277,44 @@
                 <div class="modal-header border-bottom-0">
                     <h1 class="modal-title fs-5"><b>Acción realizada correctamente</b> </h1>
                    
-                   @* <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@
+                   
+                </div>
+                <div class="modal-body py-0">
+                    @if (Doing == true)
+                    {
+                        <p>Se ha guardado el libro: <b>@NombreAnterior</b> correctamente</p>
+                    }
+                    else
+                    {
+                        <p>Se ha Modificado el libro a: <b>@NombreAnterior</b> correctamente</p>
+
+                    }
+
+                    <svg class="bi text-body-secondary flex-shrink-0" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                        <image xlink:href="https://em-content.zobj.net/thumbs/160/apple/81/heavy-black-heart_2764.png" width="48" height="48" />
+                    </svg>
+                </div>
+                <div class="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
+                    <button type="button" @onclick="()=>{Saving = !Saving;}" class="btn btn-lg btn-primary">Okey</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+   
+}
+
+
+
+@if (Saving)
+{
+    <div class="modal-backdrop fade show rounded-3"></div>
+    <div class="modal rounded-3" tabindex="-1" role="dialog" style="display: block;">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable rounded-3">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header border-bottom-0">
+                    <h1 class="modal-title fs-5"><b>Acción realizada correctamente</b> </h1>
+
+
                 </div>
                 <div class="modal-body py-0">
                     @if (Doing == true)
@@ -278,44 +338,8 @@
         </div>
     </div>
 
-
-
-    
-    @*<div class="modal-backdrop fade show"></div>
-    <div class="modal" tabindex="-1" role="dialog" style="display: block;">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Operación exitosa</h5>
-                    <button type="button" class="btn-close" @onclick="()=>{Saving = !Saving;}"></button>
-                </div>
-                <div class="modal-body">
-
-
-                    @if(Doing == true)
-                    {
-                        <p>Se ha guardado el libro: <b>@NombreAnterior </b> correctamente</p>
-                    } 
-                    else
-                    {
-                        <p>Se ha Modificado el libro a: <b>@NombreAnterior </b>  correctamente</p>
-                    }
-
-                  
-
-                   
-
-                   
-
-
-                </div>
-                <div class="modal-footer text-center">
-                    <button type="button" class="btn btn-warning" @onclick="()=>{Saving = !Saving;}">Ok</button>
-                </div>
-            </div>
-        </div>
-    </div>*@
 }
+
 
 <div class="card shadow position-relative rounded-pill">
     <div class="card shadow position-relative rounded-4">
@@ -346,17 +370,17 @@
                             
                            
 
-                            <button  @onclick="()=>Eliminar(libro)" class="btn btn-link text-danger text-decoration-none" type="button">
+                            <button  @onclick="()=>ModalEliminar(libro)" class="btn btn-link text-danger text-decoration-none" type="button">
                                 <div class="d-flex flex-column align-items-center fw-bold">
                                     <i class="bi bi-trash" style="line-height: 32px; font-size: 22px;"></i>
                                     <span>Eliminar</span>
                                 </div>
                             </button>
 
-                            <button @onclick="()=>Seleccionar(libro.Id)" class="btn btn-link text-primary text-decoration-none" type="button">
+                            <button @onclick="()=>Seleccionar(libro.Id)" class="btn btn-focus text-primary text-decoration-none" type="button">
                                 <div class="d-flex flex-column align-items-center fw-bold">
                                     <i class="bi bi-pencil" style="line-height: 32px; font-size: 22px;"></i>
-                                    <span>Seleccionar</span>
+                                    <span>Editar</span>
                                 </div>
                             </button>
                            
@@ -375,11 +399,23 @@
 
 @code {
 
+    public void ModalEliminar(LibroResponse lib)
+    {
+
+        libroAeliminar = lib;
+        EliminarLibro = true;
+
+    }
+
+    LibroResponse libroAeliminar { get; set; } = new LibroResponse();
+
     private bool HolaDenuevo{ get; set; }
 
     private string busqueda = "";
 
     private bool SeElimino = true;
+
+    private bool EliminarLibro { get; set; } = false;
 
     private bool Saving { get; set; } = false;
 
@@ -389,7 +425,7 @@
 
     public string? LibroExiste { get; set; }
 
-    
+
 
     private async Task HandleFileChange(InputFileChangeEventArgs e)
     {
@@ -420,6 +456,9 @@
     {
         request = new LibroRequest();
         ShowForm = false;
+        libroAeliminar = new LibroResponse();
+        
+
     }
 
     // Funcion para cargar los libros de manera asincrona (independiente)
