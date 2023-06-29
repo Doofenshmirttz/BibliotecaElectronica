@@ -23,5 +23,7 @@ namespace BibliotecaElectronica.Data.Request
         [Required(ErrorMessage = "Debe de introducir una portada")]
         [Display(Name = "Portada")]
         public byte[] Portada { get; set; } = null!;
+
+        public int IdUsuario { get; set; }
     }
 }

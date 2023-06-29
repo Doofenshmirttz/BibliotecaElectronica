@@ -12,6 +12,7 @@ namespace BibliotecaElectronica.Data.Response
 
         public byte[] Portada { get; set; } = null!;
 
+        public int IdUsuario { get; set; }
 
         public LibroRequest ToRequest() => new()
         {
@@ -19,7 +20,9 @@ namespace BibliotecaElectronica.Data.Response
             Nombre = Nombre,
             Autor = Autor,
             Genero = Genero,
-            Portada = Portada
+            Portada = Portada,
+            IdUsuario = IdUsuario
+
         };
     }
 }

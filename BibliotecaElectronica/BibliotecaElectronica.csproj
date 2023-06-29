@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="BootstrapBlazor" Version="7.7.0" />
+    <PackageReference Include="MatBlazor" Version="2.10.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5">
@@ -100,7 +101,7 @@
     <None Include="bin\Debug\net7.0\System.Security.Cryptography.ProtectedData.dll" />
     <None Include="bin\Debug\net7.0\System.Security.Permissions.dll" />
     <None Include="bin\Debug\net7.0\System.Windows.Extensions.dll" />
-    <None Include="Pages\Acerca.razor" />
+    <None Include="Pages\Libros\Acerca.razor" />
   </ItemGroup>
 
 </Project>

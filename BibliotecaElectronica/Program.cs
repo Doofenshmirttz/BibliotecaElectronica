@@ -1,7 +1,6 @@
-using BibliotecaElectronica.Data;
 using BibliotecaElectronica.Data.Context;
 using BibliotecaElectronica.Data.Services;
-
+using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -13,7 +12,11 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddDbContext<BibliotecaElectronicaDbContext>();
 builder.Services.AddScoped<IBibliotecaElectronicaDbContext, BibliotecaElectronicaDbContext>();
 builder.Services.AddScoped<ILibroServices, LibroServices>();
+builder.Services.AddScoped<IUsuarioServices, UsuarioServices>();
+builder.Services.AddSingleton<UserDataService>();
+builder.Services.AddScoped<IMatDialogService, MatDialogService>();
 
+builder.Services.AddMatBlazor();
 
 var app = builder.Build();
 

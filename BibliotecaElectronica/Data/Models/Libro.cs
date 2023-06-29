@@ -16,6 +16,8 @@ namespace BibliotecaElectronica.Data.Models
 
         public byte[] Portada { get; set; } = null!;
 
+        public int IdUsuario { get; set; }
+
 
         public static Libro Crear(LibroRequest libro) => new()
         {
@@ -23,7 +25,8 @@ namespace BibliotecaElectronica.Data.Models
             Nombre = libro.Nombre,
             Autor = libro.Autor,
             Genero = libro.Genero,
-            Portada = libro.Portada
+            Portada = libro.Portada,
+            IdUsuario = libro.IdUsuario
 
         };
 
@@ -69,6 +72,7 @@ namespace BibliotecaElectronica.Data.Models
            Autor = Autor,
            Portada = Portada,
            Genero = Genero,
+           IdUsuario = IdUsuario
        };
     }
 }

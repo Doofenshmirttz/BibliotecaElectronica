@@ -1,10 +1,20 @@
-﻿@page "/"
+﻿@page "/libros/{UsuarioId:int}"
+
+@inherits ComponentBase
+@inject NavigationManager NavigationManager
+@using MatBlazor;
 
 
 
 <link rel="stylesheet" href="Index.css">
 
-
+ <style>
+    .app-fab--absolute {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+    }
+</style>
 
 <style>
     
@@ -59,7 +69,7 @@
 
 <div class="text-center">
     <h1 class="gardiente-texto">Web Library</h1>
-    <p class="lead fw-bold">Bienvenido</p>
+    <p class="lead fw-bold">Bienvenido @UsuarioNombre</p>
 </div>
 
 
@@ -75,8 +85,15 @@
 
 
 <div class="d-flex mb-3">
-    <input @bind-value="busqueda" type="text" class="form-control form-control-sm rounded-start-3" style="max-width: 200px;" placeholder="Buscar un libro" aria-label="Recipient's username" aria-describedby="button-addon2">
-    <button class="btn btn-success bi bi-search ms-2 rounded-end-3" type="button" id="button-addon2"></button>
+     <p>
+         <MatThemeProvider Theme="@theme1">
+            <MatTextField @bind-Value="@busqueda"  IconTrailing="true" IconOnClick="()=>{busqueda = busqueda;}" Icon="search" Label="buscar libro">
+
+            </MatTextField>
+        </MatThemeProvider>
+        
+     </p>
+
 </div>
 
 
@@ -115,28 +132,7 @@
     </div>
 }
 
-@if(EliminarLibro)
-{
-    <div class="modal-backdrop fade show rounded-3"></div>
-    <div class="modal rounded-3" tabindex="-1" role="dialog" style="display: block;">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable rounded-3">
-            <div class="modal-content rounded-4 shadow">
-                <div class="modal-header text-center border-bottom-0">
-                    <h1 class="modal-title fs-5 text-center"><b>¿Desea Eliminar el libro  </b>@libroAeliminar.Nombre<b>?</b> </h1>
 
-
-                </div>
-                
-                <div class="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
-                    <button type="button" @onclick="()=>Eliminar(libroAeliminar)" class="btn btn-lg btn-primary">Si</button>
-                </div>
-                <div class="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
-                    <button type="button" @onclick="()=>{Cancelar(); EliminarLibro=!EliminarLibro;}" class="btn btn-lg btn-danger">No</button>
-                </div>
-            </div>
-        </div>
-    </div>
-}
 
 
 @if (ShowForm)
@@ -153,7 +149,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
 
-                            @if (Doing == true)
+                            @if (request.Id == 0)
                             {
                                 <h5 class="modal-title"> Guardar libro</h5>
 
@@ -175,22 +171,24 @@
 
 
                             <div class="form-floating mb-4">
-                                <input type="text" class="form-control rounded-4" id="floatingInput" @bind="@request.Nombre" placeholder="Nombre del libro" required>
-                                <label for="floatingInput">Nombre del libro</label>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-
-                                <ValidationMessage For="@(() => request.Nombre)" />
-
+                               
+                                <MatThemeProvider Theme="@theme1">
+                                    <p>
+                                        <MatTextField @bind-Value="@request.Nombre" Dense="true" Icon="book" IconTrailing="true" Label="Nombre del libro" FullWidth="true" Required="true"></MatTextField>
+                                    </p>
+                                </MatThemeProvider>
+                          
 
                             </div>
 
 
 
                             <div class="form-floating mb-4">
-                                <input type="text" class="form-control rounded-4" id="floatingInput" @bind="@request.Autor" placeholder="Autor del libro" required>
-                                <label for="floatingInput">Autor del libro</label>
+                                <MatThemeProvider Theme="@theme1">
+                                    <p>
+                                        <MatTextField @bind-Value="@request.Autor" Dense="true" Icon="face" IconTrailing="true" Label="Autor del libro" FullWidth="true" Required="true"></MatTextField>
+                                    </p>
+                                </MatThemeProvider>
                                 <div class="valid-feedback">
                                     Looks good!
                                 </div>
@@ -204,32 +202,15 @@
 
                             </div>
 
+                            <p>
+                                <MatThemeProvider Theme="@theme1">
+                                    <MatSelectValue @bind-Value="@request.Genero" Icon="assignment" Items="@value1Items" Label="Selecciona un genero" FullWidth="true" ValueSelector=@(i=>i.ToString())></MatSelectValue>
+                                    <ValidationMessage For="@(() => request.Genero)" class="validation-message" />
+                                </MatThemeProvider>
+                            </p>
 
-
-                            <div class="input-group mb-3">
-                                <label class="input-group-text rounded-start-4" for="inputGroupSelect01">Género literario</label>
-                                <select class="form-select rounded-end-4" id="inputGroupSelect01" required @bind="@request.Genero" requiered>
-                                    <option selected></option>
-                                    <option value="Novela">Novela</option>
-                                    <option value="Poesía">Poesía</option>
-                                    <option value="Drama">Drama</option>
-                                    <option value="Fantasía">Fantasía</option>
-                                    <option value="Bélico">Bélico</option>
-                                    <option value="Historia">Historia</option>
-                                    <option value="Thriller">Thriller</option>
-                                    <option value="Horror">Horror</option>
-                                    <option value="Novelas Ligeras">Novelas ligeras</option>
-                                    <option value="Manga">Manga</option>
-                                    <option value="Infantil">Infantil</option>
-                                    <option value="Ciencia/Educativo">Ciencia/Educativo</option>
-                                    <option value="Ciencia Ficcion">Ciencia Ficción</option>
-                                </select>
-                                
-                            </div>
-
+                            
                            
-                          
-
 
                             <div class="mb-3">
                                 <label for="formFile" class="form-label">Seleccionar una portada</label>
@@ -241,23 +222,32 @@
 
                             </div>
 
-
+                           
 
                             <div class="mb-3">
                                 <i class="bi badge-info"></i>
                                 <p style="color: #dc3545;" class="fs-10 text-center fw-bold">Procura que las imagenes no sean tan grandes</p>
                                 <p class="fs-11 text-center">O puedes</p>
-                                <NavLink class="nav-link text-center fw-bold" href="https://www.iloveimg.com/es/comprimir-imagen" Match="NavLinkMatch.All" target="_blank">
-                                    <span class="oi oi-box" aria-hidden="true"></span> Comprimir la imágen (Opción recomendada)
-                                </NavLink>
+
+                                <p class="text-center">
+                                     <MatThemeProvider Theme="@theme1">
+                                    <MatButtonLink Href="https://www.iloveimg.com/es/comprimir-imagen" Target="_blank" Unelevated="true" Icon="account_balance_wallet">Comprimir la imágen (Opción recomendada)</MatButtonLink>
+                               </MatThemeProvider>
+                                </p>
+                              
 
                             </div>
 
                         </div>
 
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Guardar</button>
-                            <button type="button" class="btn btn-secondary" @onclick="Cancelar">Cerrar</button>
+                            <MatThemeProvider Theme="@theme1">
+
+
+                                <MatButton @onclick="()=>{request.IdUsuario = UsuarioId;}" type="submit" Raised="true" Icon="save">Guardar</MatButton>
+                                
+                            </MatThemeProvider>
+                           
                         </div>
                     </div>
                 </div>
@@ -305,47 +295,11 @@
 
 
 
-@if (Saving)
-{
-    <div class="modal-backdrop fade show rounded-3"></div>
-    <div class="modal rounded-3" tabindex="-1" role="dialog" style="display: block;">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable rounded-3">
-            <div class="modal-content rounded-4 shadow">
-                <div class="modal-header border-bottom-0">
-                    <h1 class="modal-title fs-5"><b>Acción realizada correctamente</b> </h1>
-
-
-                </div>
-                <div class="modal-body py-0">
-                    @if (Doing == true)
-                    {
-                        <p>Se ha guardado el libro: <b>@NombreAnterior</b> correctamente</p>
-                    }
-                    else
-                    {
-                        <p>Se ha Modificado el libro a: <b>@NombreAnterior</b> correctamente</p>
-
-                    }
-
-                    <svg class="bi text-body-secondary flex-shrink-0" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                        <image xlink:href="https://em-content.zobj.net/thumbs/160/apple/81/heavy-black-heart_2764.png" width="48" height="48" />
-                    </svg>
-                </div>
-                <div class="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
-                    <button type="button" @onclick="()=>{Saving = !Saving;}" class="btn btn-lg btn-primary">Okey</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-}
 
 
 <div class="card shadow position-relative rounded-pill">
     <div class="card shadow position-relative rounded-4">
-        <button class="btn btn-primary rounded-circle animate__animated animate__fadeIn" @onclick="()=>{ShowForm = !ShowForm; Doing = true;}" style="position: absolute; top: -20px; right: -20px; width: 40px; height: 40px; padding: 0;">
-            <i class="bi bi-plus" style="line-height: 40px; font-size: 18px;"></i>
-        </button>
+       
     </div>
     <table class="table-light table table-bordered rounded-pill m-0">
         <thead >
@@ -358,7 +312,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var libro in Libros.Where(l => l.Nombre.ToLower().Contains(busqueda.ToLower())))
+            @foreach (var libro in Libros.Where(l => l.Nombre.ToLower().Contains(busqueda.ToLower()) && l.IdUsuario == userData.User.UsuarioId))
             {
                 <tr>
                     <td class="text-center"><img src="data:image;base64,@Convert.ToBase64String(libro.Portada)" class="img-fluid" alt="Portada" style="max-height: 100px;"></td>
@@ -369,14 +323,16 @@
                         <div class="d-flex justify-content-center">
                             
                            
+                            <MatThemeProvider Theme="@theme1">
+                                <button  @onclick="()=>ModalEliminar(libro)" class="btn btn-link text-danger text-decoration-none" type="button">
+                                    <div class="d-flex flex-column align-items-center fw-bold">
+                                        <i class="bi bi-trash" style="line-height: 32px; font-size: 22px;"></i>
+                                        <span>Eliminar</span>
+                                    </div>
+                                </button>
+                            </MatThemeProvider>
 
-                            <button  @onclick="()=>ModalEliminar(libro)" class="btn btn-link text-danger text-decoration-none" type="button">
-                                <div class="d-flex flex-column align-items-center fw-bold">
-                                    <i class="bi bi-trash" style="line-height: 32px; font-size: 22px;"></i>
-                                    <span>Eliminar</span>
-                                </div>
-                            </button>
-
+                            
                             <button @onclick="()=>Seleccionar(libro.Id)" class="btn btn-focus text-primary text-decoration-none" type="button">
                                 <div class="d-flex flex-column align-items-center fw-bold">
                                     <i class="bi bi-pencil" style="line-height: 32px; font-size: 22px;"></i>
@@ -393,21 +349,67 @@
 </div>
 
 
+<MatThemeProvider Theme="@theme1">
 
-
-
-
+    <MatFAB Class= "app-fab--absolute" Icon="@MatIconNames.Add_circle" Label="Agregar Libros" OnClick="()=>{ShowForm = true;}"></MatFAB>
+</MatThemeProvider>
+ 
 @code {
+    @inject NavigationManager NavigationManager;
 
-    public void ModalEliminar(LibroResponse lib)
+    string[] value1Items = new[]
+    {
+               "", "Novela", "Poesía", "Teatro", "Ensayo", "Cuento", "Manga"
+    };
+    public async void ModalEliminar(LibroResponse lib)
     {
 
-        libroAeliminar = lib;
-        EliminarLibro = true;
+        
+        await OpenAskFromService(lib);
+
+        
+
 
     }
 
+    public string CurrentUri { get; set; } = null!;
+
+     List<string> list = new List<string>();
+    
+    async Task OpenAskFromService(LibroResponse lib)
+    {
+        var eliminar = await MatDialogService.AskAsync("¿Desea eliminar el libro " + lib.Nombre + "?" , new string[] { "Yes", "No", "Cancel" });
+
+        if(eliminar == "Yes")
+        {
+            await Eliminar(lib);
+        }
+        else
+        {
+            Cancelar();
+        }
+    }
+ 
+    
+    private async Task HandleFileChange(InputFileChangeEventArgs e)
+    {
+        var archivo = e.File;
+        var buffer = new byte[archivo.Size];
+        await archivo.OpenReadStream().ReadAsync(buffer);
+
+        request.Portada = buffer;
+    }
+
     LibroResponse libroAeliminar { get; set; } = new LibroResponse();
+
+    [Parameter]
+    public int UsuarioId { get; set; }
+
+    
+    public string UsuarioNombre { get; set; } = null!;
+
+    
+    public string UsuarioUserName { get; set; } = null!;
 
     private bool HolaDenuevo{ get; set; }
 
@@ -425,19 +427,19 @@
 
     public string? LibroExiste { get; set; }
 
+   
 
 
-    private async Task HandleFileChange(InputFileChangeEventArgs e)
+    
+
+    MatTheme theme1 = new MatTheme()
     {
-        var file = e.File;
-        var buffer = new byte[file.Size];
-        await file.OpenReadStream().ReadAsync(buffer);
+        Primary = "#536dfe",
+        Secondary = "#303f9f",
+          
+    };
 
-
-
-        request.Portada = buffer;
-    }
-
+   
 
     // Para mostrar el formulario de eliminar
     public bool ShowForm { get; set; } = false;
@@ -456,15 +458,19 @@
     {
         request = new LibroRequest();
         ShowForm = false;
-       
+
 
     }
 
+    public void AsignarDatos()
+    {
+        
+    }
     // Funcion para cargar los libros de manera asincrona (independiente)
     async Task CargarLibros()
     {
         // Ejecutamos la función Consultar la cual devuelve una lista de LibroResponse
-        var resultado = await libroServices.Consultar(Filtro);
+        var resultado = await libroServices.Consultar(Filtro, UsuarioId);
         if (resultado.Success)
         {
             Libros = resultado.Data!;
@@ -474,9 +480,16 @@
     // Esta función se va a ejecutar de forma asincrona cuando se abra la app
     protected override async Task OnInitializedAsync()
     {
+        AsignarDatos();
         await CargarLibros();
+        
         HolaDenuevo = true;
+        CurrentUri = NavigationManager.Uri;
+        UsuarioNombre = userData.User.UsuarioNombre;
+        UsuarioUserName = userData.User.UsuarioUserName;
     }
+
+
 
     // Si se envía un request
     public async Task Send()
@@ -487,7 +500,7 @@
         if (request.Id == 0)
         {
 
-
+            request.IdUsuario = UsuarioId;
             // Debo registrar el libro
             var r = await libroServices.Crear(request);
             if (r.Success)
@@ -525,7 +538,7 @@
         Doing = false;
         ShowForm = true;
         request = Libros
-        .Where(c => c.Id == Id)
+        .Where(c => c.Id == Id && c.IdUsuario == UsuarioId)
         .Select(c => c.ToRequest())
         .FirstOrDefault() ?? new LibroRequest();
     }

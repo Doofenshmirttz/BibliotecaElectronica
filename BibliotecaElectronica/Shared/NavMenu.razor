@@ -1,6 +1,8 @@
-﻿<style>
+﻿@inject UserDataService userData
+
+<style>
     .navbar {
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        box-shadow: whitesmoke;
     }
 
     .nav-link {
@@ -13,26 +15,53 @@
             text-decoration: none;
         }
 </style>
+<style>
+   
+</style>
 
-<div class="top-row ps-3 navbar bg-dark navbar-dark">
+
+<div class="top-row ps-3 navbar bg-dark navbar-custom">
     <div class="container-fluid">
-        <a class="navbar-brand text-center" href="/"><b>Web Lib</b></a>
+        <a class="navbar-brand text-center text-white"><b>Web Library</b></a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
 </div>
 
-<div class="@NavMenuCssClass bg-dark nav-scrollable shadow-right" @onclick="ToggleNavMenu">
+
+<div class="@NavMenuCssClass bg-dark navbar-custom nav-scrollable" @onclick="ToggleNavMenu">
+
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" Match="NavLinkMatch.All">
+                <span class="oi oi-person" aria-hidden="true"></span> @userData.User.UsuarioUserName
+            </NavLink>
+        </div>
+        <!-- Agrega aquí más elementos de menú si es necesario -->
+    </nav>
+    
+
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
+                <span class="oi oi-account-logout" aria-hidden="true"></span> Cerrar Sesion
+            </NavLink>
+        </div>
+        <!-- Agrega aquí más elementos de menú si es necesario -->
+    </nav>
+
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link"  Match="NavLinkMatch.All">
                 <span class="oi oi-book" aria-hidden="true"></span> Libros
             </NavLink>
         </div>
         <!-- Agrega aquí más elementos de menú si es necesario -->
     </nav>
+
 </div>
+
 
 
 
@@ -46,4 +75,6 @@
     {
         collapseNavMenu = !collapseNavMenu;
     }
+    
+
 }

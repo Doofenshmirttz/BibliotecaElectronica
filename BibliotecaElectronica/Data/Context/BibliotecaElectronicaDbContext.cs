@@ -8,7 +8,7 @@ namespace BibliotecaElectronica.Data.Context
     {
         private readonly IConfiguration config;
         public DbSet<Libro> Libros { get; set; }
-
+        public DbSet<Usuario> Usuarios { get; set; }
         public BibliotecaElectronicaDbContext(IConfiguration config)
         {
             this.config = config;

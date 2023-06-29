@@ -83,19 +83,19 @@ namespace BibliotecaElectronica.Data.Services
                 return new Result() { Message = E.Message, Success = false };
             }
         }
-        public async Task<Result<List<LibroResponse>>> Consultar(string filtro)
+        public async Task<Result<List<LibroResponse>>> Consultar(string filtro, int IdUsuario)
         {
             try
             {
-                var libro = await dbContext.Libros
-                    .Where(c =>
-                        (c.Nombre + " " + c.Autor + " " + c.Genero)
-                        .ToLower()
-                        .Contains(filtro.ToLower()
-                        )
-                    )
-                    .Select(l => l.ToResponse())
-                    .ToListAsync();
+                                var libro = await dbContext.Libros
+                      .Where(c =>
+                          c.IdUsuario == IdUsuario &&
+                          (c.Nombre + " " + c.Autor + " " + c.Genero)
+                              .ToLower()
+                              .Contains(filtro.ToLower())
+                      )
+                      .Select(l => l.ToResponse())
+                      .ToListAsync();
                 return new Result<List<LibroResponse>>()
                 {
                     Message = "Ok",

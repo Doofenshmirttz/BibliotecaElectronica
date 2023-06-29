@@ -1,0 +1,24 @@
+﻿
+
+@page "/acerca"
+
+@inherits ComponentBase
+<h3>Acerca</h3>
+
+<h3>@UserUri</h3>
+
+@code {
+
+
+    [Parameter]
+
+    public string UserUri { get; set; } = null!;
+
+    protected void OnInitialized()
+    {
+        UserUri = userData.User.UsuarioNombre;
+        
+       
+    }
+
+}
