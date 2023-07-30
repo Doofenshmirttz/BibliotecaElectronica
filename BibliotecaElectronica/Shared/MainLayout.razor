@@ -1,81 +1,141 @@
 ﻿@inherits LayoutComponentBase
-@inject UserDataService userData
+
+
+@using MudBlazor.Utilities;
+
+<MudThemeProvider></MudThemeProvider>
+<MudDialogProvider />
+<MudSnackbarProvider />
 <style>
     .subtitle {
         font-size: 1.0rem;
         color: whitesmoke;
         margin-left: 5px; /* Ajusta el valor según el espacio deseado */
+        
     }
+
+    .colorpicker
+    {
+        height: 20px;
+        border-radius: 10px;
+    }
+    
 </style>
 
 <style>
     .navbar-custom {
-        background-image: linear-gradient(to right, #A1C4FD, #93A5CF);
+        background-color: white;
+        
+        padding: 10px;
     }
 </style>
 
 <PageTitle>Web Library</PageTitle>
 
 
-    <div class="page mb-3">
-        
-            <div class="navbar-fixed-top">
-                <nav class="navbar navbar-expand-md navbar-dark fixed-top navbar-custom navbar-lg">
-                    <div class="container-fluid">
-                        <a class="navbar-brand" href="#">Web Library<span class="subtitle">By people for books</span></a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarCollapse">
-                            <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+<div class="page mb-3">
+    <div class="navbar-fixed-top">
+        <nav style="@($"border-bottom-color: {colorPersonal.GetColor()}; padding: 10px;   ")" class="navbar navbar-expand-md navbar-light navbar-custom fixed-top navbar-lg">
+            <div class="container-fluid">
+                <MudText Typo="Typo.h2" Style="@($"color: {colorPersonal.GetColor()}; font-size: 25px; font-weight: bold;")">
+                    <span font-weight: bold;">T</span>
+                    <span font-weight: bold;">A</span>
+                    <span font-weight: bold;">S</span>
+                    <span font-weight: bold;">K</span>
+                    <span font-weight: bold;"> </span>
+                    <span font-weight: bold;">T</span>
+                    <span font-weight: bold;">R</span>
+                    <span font-weight: bold;">A</span>
+                    <span font-weight: bold;">C</span>
+                    <span font-weight: bold;">K</span>
+                    <span font-weight: bold;">E</span>
+                    <span font-weight: bold;">R</span>
+                    <MudText Style="font-size: 12px; font-weight: bold;">
+                        <span font-weight: bold;"> </span>
+                        <span font-weight: bold;"> </span>
+                        <span font-weight: bold;"> </span>
+                        <span font-weight: bold;"> Un lienzo para usted</span>
+                    </MudText>
+                </MudText>
 
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" match>
-                                        <span class="oi oi-person" aria-hidden="true"></span>
-                                    </a>
-                                </li>
-                                <li class="nav-item dropdown active">
-                                    <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        @userData.User.UsuarioUserName
-                                    </a>
-                                    <ul class="dropdown-menu active ">
-                                         <li><a class="dropdown-item" href="/"><span class="oi oi-account-logout" aria-hidden="true"></span> Cerrar Sesión</a></li>
-                                       
-                                    </ul>
-                                </li>
+                
+                
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                        <MudPopover   Open="@ShowColorPicker" AnchorOrigin="Origin.BottomCenter"  Class="px-4 pt-4">
+                            <div class="d-flex flex-column" style="margin-bottom: 37px; ">
+                            
+                                <MudColorPicker  DisableToolbar="true" Class="colorpicker" TextChanged="OnColorChanged" AdornmentColor="MudBlazor.Color.Dark" AdornmentIcon="@Icons.Material.Filled.Colorize" Adornment="Adornment.End" DisableModeSwitch="true" DisableAlpha="true" DisableInputs="true" DisableColorField="false" ColorPickerView="ColorPickerView.Palette" Palette="CustomPalette" IconSize="Size.Medium" Style="font-weight: bold; margin-top: 1%;border-bottom: none; " PickerVariant="PickerVariant.Dialog" />
+                            </div>
+                        </MudPopover>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" match>
+                                <MudIconButton Icon="@Icons.Material.Sharp.Person" Style="@($"color: {AppBarColor};")" Size="Size.Medium"></MudIconButton>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            
+                            
+                            <a class="nav-link active" aria-current="page" match>
+                                <MudToggleIconButton @bind-Toggled="@ShowColorPicker"
+                                                     Icon="@Icons.Material.Filled.ColorLens" Style="color: black" Title="Off"
+                                                     ToggledIcon="@Icons.Material.Rounded.Close" ToggledColor="@MudBlazor.Color.Error" ToggledTitle="On" />
                                 
-
-                               
-
-
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="libros/@userData.User.UsuarioId" match>
-                                        <span class="oi oi-home oi-lg" aria-hidden="true"></span> Libros
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link" href="acerca" >
-                                        <span class="oi oi-signal oi-lg" aria-hidden="true"></span> Acerca
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            
+                            <a class="nav-link active" aria-current="page" match>
+                                <MudChip  Label="true" Style="@($"background-color: {colorPersonal.GetColor()}; color: white; font-size: 15px; margin-top: 9px; height: 30px;  border-radius: 10px;")">@colorPersonal.GetColor()</MudChip>
+                                
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
             </div>
-
-
-        <main class="mt-5 mb-3">
-
-
-            <article class="content px-15">
-                @Body
-            </article>
-        </main>
-
+        </nav>
     </div>
 
+    <main class="mb-auto">
+        <article class="content px-15">
+            @Body
+        </article>
+    </main>
+</div>
+
+
+
+@code {
+
+
+    private void OnColorChanged(string color)
+    {
+        AppBarColor = color;
+        colorPersonal.ChangeColor(color);
+        
+    }
+    protected override void OnInitialized()
+    {
+        colorPersonal.ChangeColor(AppBarColor);
+    }
+
+    public IEnumerable<MudColor> CustomPalette { get; set; } = new MudColor[]
+       {
+        "#1D5B79", "#468B97", "#EF6262",
+        "#F3AA60", "#F99B7D", "#E76161",
+        "#B04759", "#8BACAA", "#41644A"
+
+       };
+    public string AppBarColor = "#1D5B79";
     
-
-
+    public bool ShowColorPicker = false;
+}

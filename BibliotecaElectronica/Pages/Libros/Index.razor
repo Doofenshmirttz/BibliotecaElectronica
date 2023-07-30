@@ -1,563 +1,110 @@
-﻿@page "/libros/{UsuarioId:int}"
+﻿@page "/"
 
-@inherits ComponentBase
+
 @inject NavigationManager NavigationManager
 @using MatBlazor;
 
 
 
-<link rel="stylesheet" href="Index.css">
 
- <style>
-    .app-fab--absolute {
-        position: fixed;
-        bottom: 1rem;
-        right: 1rem;
-    }
-</style>
+
+ 
 
 <style>
-    
-    .gardiente-texto{
-        font-size: 72px;
-        background: -webkit-linear-gradient(#6AC9BE, #93A5CF);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-   
-
-</style>
-
-<style>
-
-    .validation-message {
-        display: block;
-        text-align: center;
-        color: #dc3545;
-        font-size: 12px;
-    }
-
-    .modal-backdrop.fade.show {
-        background-color: rgba(0, 0, 0, 0.5);
-    }
-
-    .modal-dialog {
-        max-width: 500px;
-    }
-
-    .card {
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease-in-out;
-    }
-
-        .card:hover {
-            transform: translateY(-2px);
-        }
-</style>
-
-<style>
-    .modal-title .heart-emoji {
-        font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
-        font-size: 1.5rem;
-        line-height: 1;
-    }
-</style>
-
-
-
-
-
-<div class="text-center">
-    <h1 class="gardiente-texto">Web Library</h1>
-    <p class="lead fw-bold">Bienvenido @UsuarioNombre</p>
-</div>
-
-
-
-
-<div class="alert alert-success rounded-3 mb-8" role="alert">
-    <i class="bi bi-book-fill"></i> 
-    <b>    Cantidad de libros almacenados: </b> @Libros.Count
-</div>
-
-
-
-
-
-<div class="d-flex mb-3">
-     <p>
-         <MatThemeProvider Theme="@theme1">
-            <MatTextField @bind-Value="@busqueda"  IconTrailing="true" IconOnClick="()=>{busqueda = busqueda;}" Icon="search" Label="buscar libro">
-
-            </MatTextField>
-        </MatThemeProvider>
+    .demo-mat-card {
+        max-width: 400px;
+        height: 470px;
+        margin-top: 20px;
+        border-radius: 10px;
+        background-color: white;
+        color: whitesmoke;
+        box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1), 0 8px 8px rgba(0, 0, 0, 0.06);
         
-     </p>
+        
+    }
 
+
+
+    .carddos{
+        max-width: 1200px;
+        height: 470px;
+        margin-top: 20px;
+        border-radius: 0px;
+        border-radius: 10px;
+        width: 800px;
+        color: whitesmoke;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+        
+    }
+    .demo-mat-card-content {
+        padding: 1rem;
+    }
+
+    .demo-mat-card-clean-margin {
+        margin: 0px;
+    }
+</style>
+
+
+<div style="display: flex;">
+    <MudContainer  >
+        <MudPaper Style="@($"border-bottom-color: {colorPersonal.GetColor()};  margin-right: -10px; background:{Colors.Grey.Lighten5};" )" Class="demo-mat-card " Outlined="true">
+            <MudTooltip Style="margin-left:168px;" Text="Actualizar Colores" Delay="600" Arrow="true" Placement="Placement.Bottom">
+                <MudIconButton OnClick="()=>{Color = colorPersonal.GetColor(); theme1.Primary = colorPersonal.GetColor(); theme1.Secondary = colorPersonal.GetColor();}" Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Update" Style="@($"color: {colorPersonal.GetColor()};margin: 6px; margin-left:340px; margin-top: 6px;")"></MudIconButton>
+            </MudTooltip>
+           
+            <MudContainer Class="container">
+                <div class="avatar-container">
+                    <MudAvatar Size="MudBlazor.Size.Large" Style="@($"background-color: {colorPersonal.GetColor()}; height:120px; width:120px; font-size:2rem;")" >U</MudAvatar>
+                </div>
+                
+                <div class="label-container">
+                    <label>Nombre Usuario</label>
+                </div>
+
+                <div class="label-container-sub">
+                    <label>se unió 2 de mayo del 2013</label>
+                </div>
+           </MudContainer>
+
+            <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+            <div class="label-container">
+                <MudChip Icon="@Icons.Material.Filled.DoneAll" Label="true"  Style="@($"background-color: {colorPersonal.GetColor()}; color: white; font-size: 15px; height: 50px; border-radius: 10px;")">20 Tareas Hechas</MudChip>
+            </div>
+
+            <div class="button-container">
+                <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.QueryStats" Style="@($"background-color: {colorPersonal.GetColor()};color: white;border-radius: 10px;")">Ver stats</MudButton>
+            </div>
+
+        </MudPaper>
+    </MudContainer>
+
+    <MudContainer>
+        <MudPaper style="@($" border-bottom-color: {colorPersonal.GetColor()}; background:{Colors.Grey.Lighten5};" )" Class="carddos" Outlined="true">
+            <!-- Contenido del segundo MudPaper -->
+        </MudPaper>
+    </MudContainer>
 </div>
 
 
-@if(HolaDenuevo)
-{
-    <div class="modal fade show" style="display: block;">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content rounded-4 shadow">
-                <div class="modal-body p-5">
-                    <div class="d-flex justify-content-center">
-                        <h3 class="fw mb-0 text-center">Hola denuevo usuario</h3>
-                    </div>
-
-                    <ul class="d-grid gap-4 my-5 list-unstyled small">
-                        <li class="d-flex gap-4">
-                            <svg class="bi text-body-secondary flex-shrink-0" width="48" height="48" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                                <image xlink:href="https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/waving-hand.png" width="48" height="48" />
-                            </svg>
-
-                            <div>
-                                <h4 class="mb-3">Bienvenido Internauta</h4>
-                               <h6 class="mb-3"> 
-                                   ¿Libros? Si, A todos nos encantan.
-                                Y como sabemos que te encantan creamos
-                                    <label class="fs-6 gardiente-texto">Web Library</label>.
-                               </h6>
-                            </div>
-                        </li>
-                       
-                       
-                    </ul>
-                    <button @onclick="()=>{HolaDenuevo = !HolaDenuevo;}" type="button" class="btn btn-lg btn-primary mt-5 w-100" data-bs-dismiss="modal">Gracias</button>
-                </div>
-            </div>
-        </div>
-    </div>
-}
 
 
 
 
-@if (ShowForm)
-{
-    <form class="row g-3 needs-validation" novalidate>
-        <EditForm Model="request" OnValidSubmit="Send">
-
-
-
-            <div class="modal-backdrop fade show"></div>
-
-            <div class="modal" tabindex="-1" role="dialog" style="display:block;">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-
-                            @if (request.Id == 0)
-                            {
-                                <h5 class="modal-title"> Guardar libro</h5>
-
-                            }
-                            else
-                            {
-                                <h5 class="modal-title"> Modificar libro</h5>
-                            }
-
-                            <button type="button" class="btn-close" @onclick="Cancelar" data-bs-dismiss="modal" aria-label="Close">
-                                <span>&times;</span>
-                            </button>
-                        </div>
-
-                        <div class="modal-body">
-
-
-                            <DataAnnotationsValidator />
-
-
-                            <div class="form-floating mb-4">
-                               
-                                <MatThemeProvider Theme="@theme1">
-                                    <p>
-                                        <MatTextField @bind-Value="@request.Nombre" Dense="true" Icon="book" IconTrailing="true" Label="Nombre del libro" FullWidth="true" Required="true"></MatTextField>
-                                    </p>
-                                </MatThemeProvider>
-                          
-
-                            </div>
-
-
-
-                            <div class="form-floating mb-4">
-                                <MatThemeProvider Theme="@theme1">
-                                    <p>
-                                        <MatTextField @bind-Value="@request.Autor" Dense="true" Icon="face" IconTrailing="true" Label="Autor del libro" FullWidth="true" Required="true"></MatTextField>
-                                    </p>
-                                </MatThemeProvider>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-                                <div class="label align-content-center">
-                                    <ValidationMessage For="@(() => request.Autor)" class="validation-message" />
-
-
-                                </div>
-
-
-
-                            </div>
-
-                            <p>
-                                <MatThemeProvider Theme="@theme1">
-                                    <MatSelectValue @bind-Value="@request.Genero" Icon="assignment" Items="@value1Items" Label="Selecciona un genero" FullWidth="true" ValueSelector=@(i=>i.ToString())></MatSelectValue>
-                                    <ValidationMessage For="@(() => request.Genero)" class="validation-message" />
-                                </MatThemeProvider>
-                            </p>
-
-                            
-                           
-
-                            <div class="mb-3">
-                                <label for="formFile" class="form-label">Seleccionar una portada</label>
-                                <InputFile required class="form-control rounded-end-4" id="formFile" OnChange="HandleFileChange"/>
-                                <Microsoft.AspNetCore.Components.Forms.ValidationMessage For="@(() => request.Portada)" />
-                                <div class="invalid-feedback">
-                                    Porfavor selecciona una opcion
-                                </div>
-
-                            </div>
-
-                           
-
-                            <div class="mb-3">
-                                <i class="bi badge-info"></i>
-                                <p style="color: #dc3545;" class="fs-10 text-center fw-bold">Procura que las imagenes no sean tan grandes</p>
-                                <p class="fs-11 text-center">O puedes</p>
-
-                                <p class="text-center">
-                                     <MatThemeProvider Theme="@theme1">
-                                    <MatButtonLink Href="https://www.iloveimg.com/es/comprimir-imagen" Target="_blank" Unelevated="true" Icon="account_balance_wallet">Comprimir la imágen (Opción recomendada)</MatButtonLink>
-                               </MatThemeProvider>
-                                </p>
-                              
-
-                            </div>
-
-                        </div>
-
-                        <div class="modal-footer">
-                            <MatThemeProvider Theme="@theme1">
-
-
-                                <MatButton @onclick="()=>{request.IdUsuario = UsuarioId;}" type="submit" Raised="true" Icon="save">Guardar</MatButton>
-                                
-                            </MatThemeProvider>
-                           
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </EditForm>
-    </form>
-    
-}
-
-@if (Saving)
-{
-    <div class="modal-backdrop fade show rounded-3"></div>
-    <div class="modal rounded-3" tabindex="-1" role="dialog" style="display: block;">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable rounded-3">
-            <div class="modal-content rounded-4 shadow">
-                <div class="modal-header border-bottom-0">
-                    <h1 class="modal-title fs-5"><b>Acción realizada correctamente</b> </h1>
-                   
-                   
-                </div>
-                <div class="modal-body py-0">
-                    @if (Doing == true)
-                    {
-                        <p>Se ha guardado el libro: <b>@NombreAnterior</b> correctamente</p>
-                    }
-                    else
-                    {
-                        <p>Se ha Modificado el libro a: <b>@NombreAnterior</b> correctamente</p>
-
-                    }
-
-                    <svg class="bi text-body-secondary flex-shrink-0" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                        <image xlink:href="https://em-content.zobj.net/thumbs/160/apple/81/heavy-black-heart_2764.png" width="48" height="48" />
-                    </svg>
-                </div>
-                <div class="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
-                    <button type="button" @onclick="()=>{Saving = !Saving;}" class="btn btn-lg btn-primary">Okey</button>
-                </div>
-            </div>
-        </div>
-    </div> 
-   
-}
-
-
-
-
-
-<div class="card shadow position-relative rounded-pill">
-    <div class="card shadow position-relative rounded-4">
-       
-    </div>
-    <table class="table-light table table-bordered rounded-pill m-0">
-        <thead >
-            <tr class="table-primary">
-                <th class="text-center">Portada</th>
-                <th class="text-center">Nombre</th>
-                <th class="text-center">Autor</th>
-                <th class="text-center">Género</th>
-                <th class="text-center">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var libro in Libros.Where(l => l.Nombre.ToLower().Contains(busqueda.ToLower()) && l.IdUsuario == userData.User.UsuarioId))
-            {
-                <tr>
-                    <td class="text-center"><img src="data:image;base64,@Convert.ToBase64String(libro.Portada)" class="img-fluid" alt="Portada" style="max-height: 100px;"></td>
-                    <td class="text-center">@libro.Nombre</td>
-                    <td class="text-center">@libro.Autor</td>
-                    <td class="text-center">@libro.Genero</td>
-                    <td class="text-center">
-                        <div class="d-flex justify-content-center">
-                            
-                           
-                            <MatThemeProvider Theme="@theme1">
-                                <button  @onclick="()=>ModalEliminar(libro)" class="btn btn-link text-danger text-decoration-none" type="button">
-                                    <div class="d-flex flex-column align-items-center fw-bold">
-                                        <i class="bi bi-trash" style="line-height: 32px; font-size: 22px;"></i>
-                                        <span>Eliminar</span>
-                                    </div>
-                                </button>
-                            </MatThemeProvider>
-
-                            
-                            <button @onclick="()=>Seleccionar(libro.Id)" class="btn btn-focus text-primary text-decoration-none" type="button">
-                                <div class="d-flex flex-column align-items-center fw-bold">
-                                    <i class="bi bi-pencil" style="line-height: 32px; font-size: 22px;"></i>
-                                    <span>Editar</span>
-                                </div>
-                            </button>
-                           
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-
-<MatThemeProvider Theme="@theme1">
-
-    <MatFAB Class= "app-fab--absolute" Icon="@MatIconNames.Add_circle" Label="Agregar Libros" OnClick="()=>{ShowForm = true;}"></MatFAB>
-</MatThemeProvider>
  
 @code {
-    @inject NavigationManager NavigationManager;
-
-    string[] value1Items = new[]
-    {
-               "", "Novela", "Poesía", "Teatro", "Ensayo", "Cuento", "Manga"
-    };
-    public async void ModalEliminar(LibroResponse lib)
-    {
-
-        
-        await OpenAskFromService(lib);
-
-        
-
-
-    }
-
-    public string CurrentUri { get; set; } = null!;
-
-     List<string> list = new List<string>();
-    
-    async Task OpenAskFromService(LibroResponse lib)
-    {
-        var eliminar = await MatDialogService.AskAsync("¿Desea eliminar el libro " + lib.Nombre + "?" , new string[] { "Yes", "No", "Cancel" });
-
-        if(eliminar == "Yes")
-        {
-            await Eliminar(lib);
-        }
-        else
-        {
-            Cancelar();
-        }
-    }
- 
-    
-    private async Task HandleFileChange(InputFileChangeEventArgs e)
-    {
-        var archivo = e.File;
-        var buffer = new byte[archivo.Size];
-        await archivo.OpenReadStream().ReadAsync(buffer);
-
-        request.Portada = buffer;
-    }
-
-    LibroResponse libroAeliminar { get; set; } = new LibroResponse();
-
-    [Parameter]
-    public int UsuarioId { get; set; }
-
-    
-    public string UsuarioNombre { get; set; } = null!;
-
-    
-    public string UsuarioUserName { get; set; } = null!;
-
-    private bool HolaDenuevo{ get; set; }
-
-    private string busqueda = "";
-
-    private bool SeElimino = true;
-
-    private bool EliminarLibro { get; set; } = false;
-
-    private bool Saving { get; set; } = false;
-
-    private bool Doing {get; set;} 
-
-    private string? NombreAnterior { get; set; }
-
-    public string? LibroExiste { get; set; }
-
-   
-
-
-    
-
+    public string ColorPaper = "#F6F4EB";
+    public static string Color { get; set; } = null!;
     MatTheme theme1 = new MatTheme()
     {
-        Primary = "#536dfe",
+        Primary = Color,
         Secondary = "#303f9f",
           
     };
-
+    protected override void OnInitialized()
+    {
+        Color = colorPersonal.GetColor();
+    }
    
 
-    // Para mostrar el formulario de eliminar
-    public bool ShowForm { get; set; } = false;
-
-    // Creamos una lista con todos los libros
-    public List<LibroResponse> Libros { get; set; } = new List<LibroResponse>();
-
-    // Creamos una variable de tipo LibroRequest para crear peticiones para almacenar libros
-    public LibroRequest request { get; set; } = new LibroRequest();
-
-    // Creamos una variable de filtro
-    public string Filtro { get; set; } = "";
-
-    // Para que se cierre el formulario de añadir
-    void Cancelar()
-    {
-        request = new LibroRequest();
-        ShowForm = false;
-
-
-    }
-
-    public void AsignarDatos()
-    {
-        
-    }
-    // Funcion para cargar los libros de manera asincrona (independiente)
-    async Task CargarLibros()
-    {
-        // Ejecutamos la función Consultar la cual devuelve una lista de LibroResponse
-        var resultado = await libroServices.Consultar(Filtro, UsuarioId);
-        if (resultado.Success)
-        {
-            Libros = resultado.Data!;
-        }
-    }
-
-    // Esta función se va a ejecutar de forma asincrona cuando se abra la app
-    protected override async Task OnInitializedAsync()
-    {
-        AsignarDatos();
-        await CargarLibros();
-        
-        HolaDenuevo = true;
-        CurrentUri = NavigationManager.Uri;
-        UsuarioNombre = userData.User.UsuarioNombre;
-        UsuarioUserName = userData.User.UsuarioUserName;
-    }
-
-
-
-    // Si se envía un request
-    public async Task Send()
-    {
-        NombreAnterior = request.Nombre;
-        // Se evalua si tiene un id, es decir, si existe
-        // Si no
-        if (request.Id == 0)
-        {
-
-            request.IdUsuario = UsuarioId;
-            // Debo registrar el libro
-            var r = await libroServices.Crear(request);
-            if (r.Success)
-            {
-                Doing = true;
-
-                Saving = true;
-                Cancelar();
-                await CargarLibros();
-                StateHasChanged();
-
-            }
-        }
-        else // Si existe, es decir, si tiene un Id
-        {
-
-
-            // Debo solicitar modificar el libro
-            var r = await libroServices.Modificar(request);
-            if (r.Success)
-            {
-                Saving = true;
-                Doing = false;
-                Cancelar();
-                await CargarLibros();
-                StateHasChanged();
-            }
-        }
-
-
-    }
-
-    public void Seleccionar(int Id)
-    {
-        Doing = false;
-        ShowForm = true;
-        request = Libros
-        .Where(c => c.Id == Id && c.IdUsuario == UsuarioId)
-        .Select(c => c.ToRequest())
-        .FirstOrDefault() ?? new LibroRequest();
-    }
-
-    public async Task Eliminar(LibroResponse libro)
-    {
-        
-
-        var resultado = await libroServices.Eliminar(libro.ToRequest());
-        if (resultado.Success)
-        {
-           
-            await CargarLibros();
-            StateHasChanged();
-            libroAeliminar = new LibroResponse();
-            EliminarLibro = false;
-
-        }
-
-      
-    }
 }

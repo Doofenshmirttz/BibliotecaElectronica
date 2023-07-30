@@ -1,0 +1,89 @@
+﻿
+.demo-mat-card {
+    /* Agrega cualquier estilo adicional que necesites para el MudPaper */
+    padding: 20px;
+    text-align: center;
+}
+
+.avatar-container {
+    margin-top: 3px;
+    display: flex;
+    justify-content: center;
+    
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.corner-button {
+    
+    top: 0px;
+    margin-right: -100px;
+  
+}
+.label-container {
+    margin-top: 10px;
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    font-size: 23px;
+}
+
+.label-container-sub {
+    margin-top: 0px;
+    text-align: center;
+    color: dimgray;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.button-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.search-wrapper{
+
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+}
+.layout {
+    width: 1366px;
+    height: 768px;
+    display: grid;
+    grid: "header header header" auto "leftSide body rightSide" 1fr "footer footer footer" auto / auto 1fr auto;
+    gap: 8px;
+}
+.leftSide {
+    grid-area: leftSide;
+}
+
+.rightSide {
+    grid-area: rightSide;
+    
+}
+
+.search-wrapper.active{}
+
+.search-wrapper .input-holder{
+    height: 70px;
+    width: 70px;
+    overflow: hidden;
+    background: rgba(255,255,255,0);
+    border-radius:6px;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+}
+
+.search-wrapper.active input.input-holder{
+    width: 450px;
+    border-radius: 50px;
+    background: rgba(0,0,0,5);
+}

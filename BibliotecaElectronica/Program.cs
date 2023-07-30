@@ -3,6 +3,9 @@ using BibliotecaElectronica.Data.Services;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using MudBlazor.Services;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +18,9 @@ builder.Services.AddScoped<ILibroServices, LibroServices>();
 builder.Services.AddScoped<IUsuarioServices, UsuarioServices>();
 builder.Services.AddSingleton<UserDataService>();
 builder.Services.AddScoped<IMatDialogService, MatDialogService>();
-
+builder.Services.AddMudServices();
 builder.Services.AddMatBlazor();
-
+builder.Services.AddScoped<IColor, Color>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
