@@ -71,12 +71,12 @@
                         <MudPopover   Open="@ShowColorPicker" AnchorOrigin="Origin.BottomCenter"  Class="px-4 pt-4">
                             <div class="d-flex flex-column" style="margin-bottom: 37px; ">
                             
-                                <MudColorPicker  DisableToolbar="true" Class="colorpicker" TextChanged="OnColorChanged" AdornmentColor="MudBlazor.Color.Dark" AdornmentIcon="@Icons.Material.Filled.Colorize" Adornment="Adornment.End" DisableModeSwitch="true" DisableAlpha="true" DisableInputs="true" DisableColorField="false" ColorPickerView="ColorPickerView.Palette" Palette="CustomPalette" IconSize="Size.Medium" Style="font-weight: bold; margin-top: 1%;border-bottom: none; " PickerVariant="PickerVariant.Dialog" />
+                                <MudColorPicker  DisableToolbar="true" Class="colorpicker" @bind-Text="colorPersonal.ColorCode" AdornmentColor="MudBlazor.Color.Dark" AdornmentIcon="@Icons.Material.Filled.Colorize" Adornment="Adornment.End" DisableModeSwitch="true" DisableAlpha="true" DisableInputs="true" DisableColorField="false" ColorPickerView="ColorPickerView.Palette" Palette="CustomPalette" IconSize="Size.Medium" Style="font-weight: bold; margin-top: 1%;border-bottom: none; " PickerVariant="PickerVariant.Dialog" />
                             </div>
                         </MudPopover>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" match>
-                                <MudIconButton Icon="@Icons.Material.Sharp.Person" Style="@($"color: {AppBarColor};")" Size="Size.Medium"></MudIconButton>
+                                <MudIconButton Icon="@Icons.Material.Sharp.Person" Style="@($"color: {colorPersonal.ColorCode};")" Size="Size.Medium"></MudIconButton>
                             </a>
                         </li>
                         

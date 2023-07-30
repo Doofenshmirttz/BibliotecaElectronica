@@ -1,8 +1,8 @@
 ﻿namespace BibliotecaElectronica.Data.Services
 {
-    public class Color : IColor
+    public class Color :IColor
     {
-        public static string ColorCode { get; set; } = null!;
+        public string ColorCode { get; set; } = null!;
 
 
         public void ChangeColor(string Value)
