@@ -49,7 +49,7 @@
 <div style="display: flex;">
     <MudContainer  >
         <MudPaper Style="@($"border-bottom-color: {colorPersonal.GetColor()};  margin-right: -10px; background:{Colors.Grey.Lighten5};" )" Class="demo-mat-card " Outlined="true">
-            <MudTooltip Style="margin-left:168px;" Text="Actualizar Colores" Delay="600" Arrow="true" Placement="Placement.Bottom">
+            <MudTooltip Style="margin-left:3px;" Text="Actualizar Colores" Delay="600" Arrow="true" Placement="Placement.Bottom">
                 <MudIconButton OnClick="()=>{Color = colorPersonal.GetColor(); theme1.Primary = colorPersonal.GetColor(); theme1.Secondary = colorPersonal.GetColor();}" Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Update" Style="@($"color: {colorPersonal.GetColor()};margin: 6px;position: relative margin-left:340px; margin-top: 6px;")"></MudIconButton>
             </MudTooltip>
            
