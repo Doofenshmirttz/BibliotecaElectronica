@@ -23,7 +23,16 @@
         
     }
 
-
+    .tab {
+        max-width: 1180px;
+        height: 450px;
+        margin-top: 20px;
+        
+        border-radius: 10px;
+        width: 800px;
+        
+      
+    }
 
     .carddos{
         max-width: 1200px;
@@ -48,7 +57,9 @@
 
 <div style="display: flex;">
     <MudContainer  >
-        <MudPaper Style="@($"border-bottom-color: {colorPersonal.GetColor()};  margin-right: -10px; background:{Colors.Grey.Lighten5};" )" Class="demo-mat-card " Outlined="true">
+        <MudPaper Style="@($"border-bottom-color: {colorPersonal.GetColor()};  margin-right: -10px; { (colorPersonal.DarkMode ?  "background:#323232":"background:#FAFAFA" )};" )" Class="demo-mat-card " Outlined="true">
+            
+
             <MudTooltip Style="margin-left:3px;" Text="Actualizar Colores" Delay="600" Arrow="true" Placement="Placement.Bottom">
                 <MudIconButton OnClick="()=>{Color = colorPersonal.GetColor(); theme1.Primary = colorPersonal.GetColor(); theme1.Secondary = colorPersonal.GetColor();}" Size="MudBlazor.Size.Medium" Icon="@Icons.Material.Filled.Update" Style="@($"color: {colorPersonal.GetColor()};margin: 6px;position: relative margin-left:340px; margin-top: 6px;")"></MudIconButton>
             </MudTooltip>
@@ -59,17 +70,18 @@
                 </div>
                 
                 <div class="label-container">
-                    <label>Nombre Usuario</label>
+                    <MudText Typo="Typo.h5" Style="@($" { (colorPersonal.DarkMode ?  "color:white":"color:#000000" )}; font-weight: bold;")">Nombre Usuario</MudText>
                 </div>
 
                 <div class="label-container-sub">
-                    <label>Se unió 2 de mayo del 2013</label>
+                    <MudText  Style="@($" { (colorPersonal.DarkMode ?  "color:whitesmoke":"color:#696969" )}; font-weight: bold; font-size: 12px;")">Se unió 2 de mayo del 2013</MudText>
                 </div>
            </MudContainer>
 
-            <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+            
             <div class="label-container">
-                <MudChip Icon="@Icons.Material.Filled.DoneAll" Label="true"  Style="@($"background-color: {colorPersonal.GetColor()}; color: white; font-size: 15px; height: 50px; border-radius: 10px;")">20 Tareas Hechas</MudChip>
+               
+                <MudChip Icon="@Icons.Material.Filled.DoneAll" Label="true" Style="@($" {(colorPersonal.DarkMode ? "background: #323232" : "background: #FAFAFA")};color: {colorPersonal.ColorCode}; font-size: 17px; height: 50px; border-radius: 10px;")">20 Tareas Hechas</MudChip>
             </div>
 
             <div class="button-container">
@@ -79,22 +91,125 @@
         </MudPaper>
     </MudContainer>
 
+    
     <MudContainer>
-        <MudPaper style="@($" border-bottom-color: {colorPersonal.GetColor()}; background:{Colors.Grey.Lighten5};" )" Class="carddos" Outlined="true">
-            <!-- Contenido del segundo MudPaper -->
-        </MudPaper>
-    </MudContainer>
+
+        <MudPaper style="@($" border-bottom-color: {colorPersonal.GetColor()}; { (colorPersonal.DarkMode ?  "background:#323232":"background:{Colors.Grey.Lighten5}" )};" )" Class="carddos" Outlined="true">
+            
+            <MudTabs style="@($" { (colorPersonal.DarkMode ?  "background:#323232":"background:{Colors.Grey.Lighten5}" )}; color: {colorPersonal.GetColor()}; border-radius: 10px;" )" Class="tab" Elevation="0" Color="MudBlazor.Color.Inherit" Rounded="true" Centered="true">
+               
+                <MudTabPanel Icon="@Icons.Material.Filled.AccessTimeFilled" Text="Tareas Pendientes">
+                    <div class="tab-content">
+                        <div class="scrollable-content">
+                            <div class="card-container">
+                                
+                                
+                                
+                                
+                                    @foreach (var num in Lista)
+                                    {
+
+                                        var Count = num;
+                                        string Nombre = "Tarea " + Count.ToString();
+                                        var Porcentaje = (3.0 / 5.0) * 100;
+                                        <div class="card-item">
+                                            <MudCard>
+
+                                                <MudCardContent>
+
+
+                                                    <MudIconButton Icon="@Icons.Material.Rounded.MoreVert" Style="right: -180px; top:-12px;" Color="MudBlazor.Color.Primary" @onclick="()=>{TareaName = Nombre; EditTask  = true;}" aria-label="delete"></MudIconButton>
+                                                    <MudText Style="font-weight: bold; font-size: 20px;">Tarea @Count</MudText>
+                                                    <MudIconButton Icon="@Icons.Material.Rounded.TaskAlt" Color="MudBlazor.Color.Primary" aria-label="delete"></MudIconButton>
+                                                    <MudText Typo="Typo.body2">Descripcion breve</MudText>
+                                                    <MudChip Variant="Variant.Text" Color="MudBlazor.Color.Primary">Pasos 3/5</MudChip>
+                                                    <MudProgressLinear Color="MudBlazor.Color.Primary" Rounded="true" Size="MudBlazor.Size.Small" Value="@Porcentaje" />
+                                                </MudCardContent>
+                                                <MudCardActions>
+                                                    <MudButton Variant="Variant.Text" Color="MudBlazor.Color.Primary">Ver pasos</MudButton>
+                                                </MudCardActions>
+
+                                            </MudCard>
+                                        </div>
+                                    }
+                                
+                               
+                            </div>
+                            
+                        </div>
+                    </div>
+                   
+                    @* <MudText Style="@($"  color: {colorPersonal.ColorCode};   margin: -25px -50 -100 -25px; top: 50%; left: 50%;  text-align: center; font-size: 30px;")">Aún no tienes tareas agregadas</MudText>*@
+                </MudTabPanel>
+                <MudTabPanel Icon="@Icons.Material.Rounded.Done" Text="Tareas hechas" />
+                <MudTooltip Style="margin-left:3px;" Text="Añadir Tarea" Delay="600" Arrow="true" Placement="Placement.Bottom">
+                    <MudFab Size="MudBlazor.Size.Small" Style="top: -478px; right: -775px; " Color="MudBlazor.Color.Primary" StartIcon="@Icons.Material.Filled.Add" />
+                </MudTooltip>
+                
+            </MudTabs>
+             </MudPaper>
+        
+    </MudContainer> 
+    
+   
 </div>
+<MudOverlay Visible="EditTask" @onclick="()=>{EditTask = !EditTask;}" Absolute="true" LightBackground="@(!colorPersonal.DarkMode)" DarkBackground="@colorPersonal.DarkMode" LockScroll="true" />
 
+@if(EditTask)
+{
+    
+    <div class="modal-container ">
+        
+        <MudContainer Style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+            <MudPaper Elevation="25" Class="custom-paper">
+                <MudToolBar>
+                    <MudText Style="font-weight: bold; font-size: 17px;">@TareaName  </MudText>
+                    <MudSpacer />
 
+                    <MudTooltip Style="margin-left:3px;" Text="Añadir Paso" Delay="600" Arrow="true" Placement="Placement.Bottom">
+                        <MudIconButton Icon="@Icons.Material.Outlined.Add" Color="MudBlazor.Color.Primary" aria-label="Añadir Paso" />
+                    </MudTooltip>
+                    <MudTooltip Style="margin-left:3px;" Text="Editar Tarea" Delay="600" Arrow="true" Placement="Placement.Bottom">
+                        <MudIconButton Icon="@Icons.Material.Outlined.Edit" Color="MudBlazor.Color.Primary" aria-label="Editar Tarea" />
+                    </MudTooltip>
+                    <MudTooltip Style="margin-left:3px;" Text="Eliminar Tarea" Delay="600" Arrow="true" Placement="Placement.Bottom">
+                        <MudIconButton Icon="@Icons.Material.Rounded.DeleteForever" Color="MudBlazor.Color.Primary" aria-label="Borrar Tarea" />
+                    </MudTooltip>
+                  <MudTooltip Style="margin-left:3px;" Text="Marcar como Realizada" Delay="600" Arrow="true" Placement="Placement.Bottom">
+                        <MudIconButton Icon="@Icons.Material.Rounded.BookmarkAdded" Color="MudBlazor.Color.Primary" aria-label="Marcar Como Realizado" />
+                      </MudTooltip>
+                   
+                    <MudSpacer />
+                     <MudTooltip Style="margin-left:3px;" Text="Cancelar" Delay="600" Arrow="true" Placement="Placement.Bottom">
+                        
+                            <MudButton Variant="Variant.Text" @onclick="()=>{EditTask = !EditTask;}" Color="MudBlazor.Color.Primary">Cerrar</MudButton>
+                         </MudTooltip>
+                   
+                </MudToolBar>
+            </MudPaper>
+        </MudContainer>
+
+    </div>
+    
+}
 
 
 
 
  
 @code {
+    public List<int> Lista = new()
+    {
+        1,
+        2,
+        3
+       
+    };
+
+    public string TareaName { get; set; }
+    public bool EditTask = false;
     public string ColorPaper = "#F6F4EB";
-    public static string Color { get; set; } = null!;
+    public static string Color { get; set; } 
     MatTheme theme1 = new MatTheme()
     {
         Primary = Color,
@@ -106,5 +221,5 @@
         Color = colorPersonal.GetColor();
     }
    
-
+    
 }

@@ -3,7 +3,9 @@
 
 @using MudBlazor.Utilities;
 
-<MudThemeProvider></MudThemeProvider>
+<MudThemeProvider @bind-IsDarkMode="@colorPersonal.DarkMode"  Theme="_theme" />
+
+
 <MudDialogProvider />
 <MudSnackbarProvider />
 <style>
@@ -24,7 +26,7 @@
 
 <style>
     .navbar-custom {
-        background-color: white;
+        background-color: transparent ;
         
         padding: 10px;
     }
@@ -35,7 +37,7 @@
 
 <div class="page mb-3">
     <div class="navbar-fixed-top">
-        <nav style="@($"border-bottom-color: {colorPersonal.GetColor()}; padding: 10px;   ")" class="navbar navbar-expand-md navbar-light navbar-custom fixed-top navbar-lg">
+        <nav style="@($"border-bottom-color: {colorPersonal.GetColor()}; padding: 10px; {(colorPersonal.DarkMode ? "background-color: #1a1a1a" : "background-color: #ffffff")}  ")" class="@($"navbar navbar-expand-md navbar-light {(_isDarkMode ? "navbar-dark" : "navbar-custom")}navbar navbar-expand-md  navbar-custom fixed-top navbar-lg")">
             <div class="container-fluid">
                 <MudText Typo="Typo.h2" Style="@($"color: {colorPersonal.GetColor()}; font-size: 25px; font-weight: bold;")">
                     <span font-weight: bold;">T</span>
@@ -59,7 +61,7 @@
                 </MudText>
 
                 
-                
+               
                 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -70,28 +72,50 @@
                     <ul class="navbar-nav ms-auto mb-2 mb-md-0">
                         <MudPopover   Open="@ShowColorPicker" AnchorOrigin="Origin.BottomCenter"  Class="px-4 pt-4">
                             <div class="d-flex flex-column" style="margin-bottom: 37px; ">
-                            
-                                <MudColorPicker  DisableToolbar="true" Class="colorpicker" @bind-Text="colorPersonal.ColorCode" AdornmentColor="MudBlazor.Color.Dark" AdornmentIcon="@Icons.Material.Filled.Colorize" Adornment="Adornment.End" DisableModeSwitch="true" DisableAlpha="true" DisableInputs="true" DisableColorField="false" ColorPickerView="ColorPickerView.Palette" Palette="CustomPalette" IconSize="Size.Medium" Style="font-weight: bold; margin-top: 1%;border-bottom: none; " PickerVariant="PickerVariant.Dialog" />
-                            </div>
+
+                                @if(colorPersonal.DarkMode)
+                                {
+                                    <MudColorPicker DisableToolbar="true" Class="colorpicker" @bind-Text="colorPersonal.ColorCode" AdornmentColor="MudBlazor.Color.Default" AdornmentIcon="@Icons.Material.Filled.Colorize" Adornment="Adornment.End" DisableModeSwitch="true" DisableAlpha="true" DisableInputs="true" DisableColorField="false" ColorPickerView="ColorPickerView.Palette" Palette="CustomPalette" IconSize="Size.Medium" Style="font-weight: bold; margin-top: 1%;border-bottom: none; " PickerVariant="PickerVariant.Dialog" />
+                                }
+                                else
+                                {
+                                    <MudColorPicker DisableToolbar="true" Class="colorpicker" @bind-Text="colorPersonal.ColorCode" AdornmentColor="MudBlazor.Color.Dark" AdornmentIcon="@Icons.Material.Filled.Colorize" Adornment="Adornment.End" DisableModeSwitch="true" DisableAlpha="true" DisableInputs="true" DisableColorField="false" ColorPickerView="ColorPickerView.Palette" Palette="CustomPalette" IconSize="Size.Medium" Style="font-weight: bold; margin-top: 1%;border-bottom: none; " PickerVariant="PickerVariant.Dialog" />
+                                }
+
+                             </div>
                         </MudPopover>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" match>
+
                                 <MudIconButton Icon="@Icons.Material.Sharp.Person" Style="@($"color: {colorPersonal.ColorCode};")" Size="Size.Medium"></MudIconButton>
                             </a>
                         </li>
                         
                         <li class="nav-item">
-                            
-                            
+
+
                             <a class="nav-link active" aria-current="page" match>
                                 <MudToggleIconButton @bind-Toggled="@ShowColorPicker"
-                                                     Icon="@Icons.Material.Filled.ColorLens" Style="color: black" Title="Off"
+                                                     Icon="@Icons.Material.Filled.ColorLens" Style="@($"color: {colorPersonal.GetColor()};")" Title="Off"
                                                      ToggledIcon="@Icons.Material.Rounded.Close" ToggledColor="@MudBlazor.Color.Error" ToggledTitle="On" />
+
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+
+
+                            <a class="nav-link active" aria-current="page" match>
+                                <MudToggleIconButton @bind-Toggled="@colorPersonal.DarkMode"
+                                                     Icon="@Icons.Material.Rounded.NightsStay" Color="MudBlazor.Color.Dark" Title="Activar Modo Oscuro"
+                                                     ToggledIcon="@Icons.Material.Rounded.WbSunny"  ToggledColor="@MudBlazor.Color.Warning" ToggledTitle="Desactivar Modo Oscuro" />
                                 
+
                             </a>
                         </li>
                         
                         <li class="nav-item">
+                            
                             
                             <a class="nav-link active" aria-current="page" match>
                                 <MudChip  Label="true" Style="@($"background-color: {colorPersonal.GetColor()}; color: white; font-size: 15px; margin-top: 9px; height: 30px;  border-radius: 10px;")">@colorPersonal.GetColor()</MudChip>
@@ -121,7 +145,7 @@
     {
         AppBarColor = color;
         colorPersonal.ChangeColor(color);
-        
+
     }
     protected override void OnInitialized()
     {
@@ -130,12 +154,64 @@
 
     public IEnumerable<MudColor> CustomPalette { get; set; } = new MudColor[]
        {
-        "#1D5B79", "#468B97", "#EF6262",
-        "#F3AA60", "#F99B7D", "#E76161",
-        "#B04759", "#8BACAA", "#41644A"
+            "#1D5B79", // Azul suave
+        "#EF6262", // Rojo suave
+        "#F3AA60", // Naranja suave
+        "#F99B7D", // Rosa suave
+        "#E76161", // Rojo claro suave
+        "#B04759", // Rojo suave
+        "#8BACAA", // Verde azulado suave
+        "#41644A", // Verde oscuro suave
+        "#7A8F79", // Verde grisáceo suave
+        "#8C7D8F", // Gris lila suave
+        "#AE7260", // Terracota suave
+        "#6D8B85", // Verde oliva suave
+        "#846E64", // Marrón claro suave
+        "#6D8E94", // Azul grisáceo suave
+        "#94736C", // Marrón rosado suave
+        "#708E89", // Verde grisáceo suave
+        "#B08986", // Rosa pálido suave
+        "#8A6D7D", // Púrpura grisáceo suave
+        "#5A4A6D", // Púrpura suave
+        "#507B87", // Turquesa suave
+        "#A76B4F", // Marrón suave
+        "#6E8053", // Verde suave
+        "#92668C", // Lila suave
+        "#9E6B4A", // Naranja suave
+        "#5C7D75", // Verde azulado suave
+        "#89727D", // Gris púrpura suave
+        "#846E64", // Marrón claro suave
+        "#6D8E94", // Azul grisáceo suave
+        "#94736C", // Marrón rosado suave
+        "#708E89"  // Verde grisáceo suave
 
        };
     public string AppBarColor = "#1D5B79";
-    
+
     public bool ShowColorPicker = false;
+
+    private MudTheme _theme => new()
+    {
+        Palette = new Palette
+        {
+                Primary = colorPersonal.ColorCode,
+                Surface = "#FAFAFA",
+                Background = "#FFFFFF",
+                TextPrimary = "#212121",
+                TextSecondary = "#212121"
+               
+        },
+            PaletteDark = new PaletteDark
+            {
+                Secondary = "#CFD8DC",
+                Primary = colorPersonal.ColorCode,
+                Background = "#1a1a1a",
+                Surface = "#323232",
+                TextPrimary = "#FFFFFF",
+                TextSecondary = "#F7F7F7"
+                
+            },
+    };
+
+    private bool _isDarkMode = true;
 }

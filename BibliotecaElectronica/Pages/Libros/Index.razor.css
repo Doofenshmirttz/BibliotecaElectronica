@@ -28,15 +28,30 @@
 .label-container {
     margin-top: 10px;
     text-align: center;
-    color: black;
+    
     font-weight: bold;
+    
     font-size: 23px;
 }
+.tab-content {
+    margin-bottom: 10px;
+    margin-top: 30px;
+    height: 430px;
+    max-height: 350px; /* Tamaño máximo del contenido con scroll */
+    overflow-y: auto; /* Agrega barra de desplazamiento vertical si es necesario */
+}
 
+.scrollable-content {
+    padding: 10px; /* Espacio interno para evitar que el contenido toque los bordes */
+}
+
+.non-scrollable-content {
+    padding: 10px; /* Espacio interno para evitar que el contenido toque los bordes */
+}
 .label-container-sub {
     margin-top: 0px;
     text-align: center;
-    color: dimgray;
+    
     font-weight: bold;
     font-size: 13px;
 }
@@ -70,6 +85,33 @@
     
 }
 
+.card-item {
+    flex-basis: calc(33.33% - 16px); /* Máximo 3 tarjetas por fila */
+    margin: 8px; /* Espaciado entre las tarjetas */
+}
+.modal-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+   
+    border-radius: 4px;
+    padding: 16px;
+}
+
+.options {
+    
+    
+    top: 0px;
+    right: 100px;
+}
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin: -8px; /* Ajustar el espaciado entre las tarjetas */
+}
 .search-wrapper.active{}
 
 .search-wrapper .input-holder{
