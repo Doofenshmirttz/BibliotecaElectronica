@@ -87,10 +87,21 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" match>
 
-                                <MudIconButton Icon="@Icons.Material.Sharp.Person" Style="@($"color: {colorPersonal.ColorCode};")" Size="Size.Medium"></MudIconButton>
+                                <MudIconButton Icon="@Icons.Material.Sharp.Person" Style="@($"color: {colorPersonal.ColorCode};")" @onclick="()=>{CerrarSesion = !CerrarSesion;}" Size="Size.Medium"></MudIconButton>
                             </a>
                         </li>
-                        
+                        <MudPopover Open="@CerrarSesion" Paper="false"AnchorOrigin="Origin.CenterLeft" Delay="300" TransformOrigin="Origin.CenterRight" Class="px-4 pt-4">
+                            <div class="d-flex flex-column" style="border-radius: 10px; box-shadow: 0px;  "  >
+
+
+
+                                <MudButton Variant="Variant.Filled" Style="top: -7px; right: -20px;" StartIcon="@Icons.Material.Filled.Logout" Color="MudBlazor.Color.Error">Cerrar Sesión</MudButton>
+                                   
+                                
+                                
+
+                            </div>
+                        </MudPopover>
                         <li class="nav-item">
 
 
@@ -153,8 +164,8 @@
     }
 
     public IEnumerable<MudColor> CustomPalette { get; set; } = new MudColor[]
-       {
-            "#1D5B79", // Azul suave
+    {
+        "#1D5B79", // Azul suave
         "#EF6262", // Rojo suave
         "#F3AA60", // Naranja suave
         "#F99B7D", // Rosa suave
@@ -185,8 +196,10 @@
         "#94736C", // Marrón rosado suave
         "#708E89"  // Verde grisáceo suave
 
-       };
+    };
     public string AppBarColor = "#1D5B79";
+
+    public bool CerrarSesion = false;
 
     public bool ShowColorPicker = false;
 
@@ -212,6 +225,9 @@
                 
             },
     };
+
+
+   
 
     private bool _isDarkMode = true;
 }

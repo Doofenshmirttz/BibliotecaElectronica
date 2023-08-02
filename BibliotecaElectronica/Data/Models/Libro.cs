@@ -75,4 +75,6 @@ namespace BibliotecaElectronica.Data.Models
            IdUsuario = IdUsuario
        };
     }
+
+    
 }
